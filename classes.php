@@ -2,13 +2,13 @@
 	include 'sql_connect.php';
 	include 'init_datetime.php';
 
-	$prices = array[1:100,2:200,3:500];
+	$prices = array(1=>100,2=>200,3=>500);
 
 	class Igraliste {
 		var $num,$price;
 
-		function __construct(){
-			$this->price = global $prices[$this->num];
+		function __construct($prices){
+			$this->price = $prices[$this->num];
 		}
 	}
 
@@ -24,7 +24,8 @@
 		}
 
 		function isActive(){
-			$this->active = ($confirmed and isActiveTime(global $dt_now));
+			global $dt_now;
+			$this->active = ($confirmed and isActiveTime($dt_now));
 			return $this->active;
 		}
 

@@ -2,17 +2,38 @@
 	include 'sql_connect.php';
 	include 'init_datetime.php';
 
+	$prices = array[1:100,2:200,3:500];
+
+	class Igraliste {
+		var $num,$price;
+
+		function __construct(){
+			$this->price = global $prices[$this->num];
+		}
+	}
+
 	class Reservation {
 		var $id,$grupa_id,$dt_start,$dt_end,$dt_created,$duration_mins,$confirmed,$igraliste;
 		//taken directly from db
+
+		var $active;
 
 		function __construct(){
 			$this->dt_start = new DateTime;
 			$this->dt_end = new DateTime;
 		}
 
-		function timeLeftBeforeStart(){ //mins
-			$interval = $this->$dt_now->diff($this->dt_start);
+		function isActive(){
+			$this->active = ($confirmed and isActiveTime(global $dt_now));
+			return $this->active;
+		}
+
+		function isActiveTime($_dt_now){
+			return ($_dt_now > $this->dt_start and $_dt_now < $this->dt_end);
+		}
+
+		function timeLeftBeforeStart($_dt_now){ //mins
+			$interval = $_dt_now->diff($this->dt_start);
 			return intval($interval->format('m'));
 		}
 

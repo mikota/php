@@ -1,7 +1,7 @@
 <?php
-	$hostname = "nullbox.io";
+	$hostname = "127.0.0.1";
 	$username = "root";
-	$password = "nullbox12";
+	$password = "";
 	$dbname = "nullbox_grad";
 
 	$conn= new mysqli($hostname,$username,$password,$dbname);

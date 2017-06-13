@@ -7,7 +7,8 @@
 	class Igraliste {
 		var $num,$price;
 
-		function __construct($prices){
+		function __construct($_num,$prices){
+			$this->num = $_num;
 			$this->price = $prices[$this->num];
 		}
 	}
@@ -47,8 +48,9 @@
 		}
 
 		function setDbValues(){
-			$vals = "('{$this->id}','{$this->grupa_id}','{$this->dt_start}','{$this->dt_end}','{$this->dt_created}','{$this->duration_mins},'{$this->confirmed}','{$this->igraliste}')";
-			$sql = "INSERT into rezervacije (grupa_id,datetime_start,datetime_end,datetime_created,dutaion_mins,confirmed) VALUES ".$vals;
+			global $conn;
+			$vals = "('{$this->grupa_id}','{$this->dt_start}','{$this->dt_end}','{$this->dt_created}','{$this->duration_mins}','{$this->confirmed}','{$this->igraliste}')";
+			$sql = "INSERT into rezervacije (grupa_id,datetime_start,datetime_end,datetime_created,duration_mins,confirmed,igraliste) VALUES ".$vals;
 			if ($conn->query($sql)==TRUE){
 
 			} else {
@@ -57,6 +59,7 @@
 		}
 
 		function getDbValues($_id){
+			global $conn;
 			$sql = "SELECT * from rezervacije";
 			$result = $conn->query($sql);
 
@@ -65,9 +68,9 @@
 					if ($row['id'] == $_id) {
 						$this->id = $_id;
 						$this->grupa_id = $row['grupa_id'];
-						$this->dt_start = $row['dt_start'];
-						$this->dt_end = $row['dt_end'];
-						$this->dt_created = $row['dt_created'];
+						$this->dt_start = $row['datetime_start'];
+						$this->dt_end = $row['datetime_end'];
+						$this->dt_created = $row['datetime_created'];
 						$this->duration_mins = $row['duration_mins'];
 						$this->confirmed = $row['confirmed'];
 						$this->igraliste = $row['igraliste'];
@@ -76,7 +79,31 @@
 			}
 		}
 	}
+
+	class Grupa {
+		var $id, $members, $dt_created, $curr_res_id,$bodovi;
+		//taken directly from db
+
+		var $leader_id, $others;
+		//taken from $members
+
+		function __construct() {
+			$this->dt_created = new DateTime;
+		}
+
+		function $setDbValues() {
+			global $conn;
+			$vals = "('{$this->members}','{$this->dt_created}','{$this->curr_res_id}')";
+		}
+
+	}
+
+	/*
 	$obj = new Reservation;
 	$obj->getDbValues(1);
+	$obj->setDbValues();
+	$obj2 = new Reservation;
+	$obj2->getDbValues(2);
 	var_dump(get_object_vars($obj));
+	*/
 ?>

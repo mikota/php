@@ -1,12 +1,10 @@
 <?php
-	$hostname = "127.0.0.1";
-	$username = "root";
-	$password = "";
+	$hostname = "nullbox.io";
+	$username = "nullbox_grad";
+	$password = "nullboxgrad";
 	$dbname = "nullbox_grad";
 
-	$conn= new mysqli($hostname,$username,$password,$dbname);
+	$conn= mysqli_connect($hostname,$username,$password,$dbname) or die(mysqli_error($con));
+	$conn->set_charset("utf8");
 
-	if ($conn->connect_error){
-		die("Connection failed: ".$conn->connect_error);
-	}
 ?>

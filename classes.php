@@ -133,7 +133,7 @@
 		$others je $members_array bez prvog clana, tj. bez lidera.
 		*/
 
-		function __construct($id) {
+		function __construct($id=0) {
 			$this->dt_created = new DateTime;
 			$this->db_vals = array();
 			if ($id != 0){
